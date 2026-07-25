@@ -10,7 +10,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-API_BASE = os.environ.get("FINPULSE_API_URL", "http://127.0.0.1:8000")
+API_BASE = os.environ.get("FINPULSE_API_URL", "https://algo-assignment-1.onrender.com")
 
 st.set_page_config(page_title="FinPulse | Stock Monitor", layout="wide", page_icon=None)
 
