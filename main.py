@@ -85,7 +85,7 @@ STOCKS = [
     "TCS.NS", "INFY.NS", "WIPRO.NS", "HCLTECH.NS", "TECHM.NS",
     
     # ---------- Auto & Auto Ancillary (5) ----------
-    "MARUTI.NS", "TATAMOTORS.NS", "M&M.NS", "HEROMOTOCO.NS", "BAJAJ-AUTO.NS",
+    "MARUTI.NS", "TATASTEEL.NS", "M&M.NS", "HEROMOTOCO.NS", "BAJAJ-AUTO.NS",
     
     # ---------- FMCG (4) ----------
     "HINDUNILVR.NS", "ITC.NS", "NESTLEIND.NS", "BRITANNIA.NS",
