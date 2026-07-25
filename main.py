@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------- DATABASE SETUP ----------
+# DATABASE SETUP 
 
 DB_PATH = "finpulse.db"
 
@@ -73,7 +73,7 @@ def init_database():
     conn.close()
     print("✅ Database initialized successfully")
 
-# ---------- STOCK LIST ----------
+# STOCK LIST 
 
 STOCKS = [
     "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "ICICIBANK.NS",
@@ -86,12 +86,12 @@ STOCKS = [
     "HDFCLIFE.NS"
 ]
 
-# ---------- DATABASE INITIALIZATION ----------
+# DATABASE INITIALIZATION 
 
 # Run database initialization on startup
 init_database()
 
-# ---------- AUTO-REFRESH ON STARTUP ----------
+# AUTO-REFRESH ON STARTUP 
 
 def refresh_on_startup():
     """Automatically fetch data when the server starts."""
@@ -159,13 +159,13 @@ def refresh_on_startup():
     except Exception as e:
         print(f"❌ Startup refresh failed: {e}")
 
-# ---------- RUN AUTO-REFRESH ON STARTUP ----------
+# RUN AUTO-REFRESH ON STARTUP 
 
 @app.on_event("startup")
 async def startup_event():
     refresh_on_startup()
 
-# ---------- API ENDPOINTS ----------
+# API ENDPOINTS 
 
 @app.get("/")
 def root():
@@ -425,7 +425,7 @@ def get_summary():
         "top_losers": top_losers
     }
 
-# ---------- BONUS FEATURE: Filter by P/E ----------
+# BONUS FEATURE: Filter by P/E 
 
 @app.get("/stocks/filter/pe")
 def filter_by_pe(min_pe: float = Query(0, description="Minimum P/E ratio"), 
