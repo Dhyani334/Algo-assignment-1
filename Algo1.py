@@ -1,7 +1,5 @@
 """
 FinPulse Dashboard
-A Streamlit frontend that talks to the FinPulse FastAPI backend to display
-live/historical market data, fundamentals, and company comparisons.
 """
 
 import os
@@ -15,7 +13,7 @@ API_BASE = os.environ.get("FINPULSE_API_URL", "https://algo-assignment-1.onrende
 st.set_page_config(page_title="FinPulse | Stock Monitor", layout="wide", page_icon=None)
 
 
-# ---------- Helpers ----------
+# Helpers
 
 @st.cache_data(ttl=60)
 def fetch(endpoint: str):
@@ -41,12 +39,12 @@ def color_pct(val):
     return "color: #16a34a;" if val >= 0 else "color: #dc2626;"
 
 
-# ---------- Sidebar ----------
-# ---------- SIDEBAR ----------
+
+# SIDEBAR 
 
 st.sidebar.title("FinPulse")
 
-# --- Refresh Button ---
+# Refresh Button 
 if st.sidebar.button("Refresh live data", use_container_width=True):
     with st.spinner("Pulling fresh data from Yahoo Finance... this can take ~20s"):
         try:
@@ -57,11 +55,11 @@ if st.sidebar.button("Refresh live data", use_container_width=True):
         except Exception as e:
             st.sidebar.error(f"Refresh failed: {e}")
 
-# --- Navigation ---
+# Navigation 
 page = st.sidebar.radio("Navigate", ["Market Overview", "Company Detail", "Comparison"])
 
-# --- NEW: BONUS P/E FILTER (This is the new part!) ---
-st.sidebar.markdown("---")  # <-- This draws the horizontal line you were looking for
+# NEW: BONUS P/E FILTER 
+st.sidebar.markdown("---")  
 
 st.sidebar.subheader("P/E Filter (Bonus)")
 min_pe = st.sidebar.slider("Min P/E", 0, 50, 0)
@@ -73,22 +71,22 @@ if st.sidebar.button("Apply P/E Filter"):
         if resp.status_code == 200:
             filtered = resp.json()
             st.sidebar.success(f"Found {filtered['count']} stocks")
-            # Save the filtered results so your main page can use them
+            
             st.session_state['filtered_stocks'] = filtered['stocks']
     except Exception as e:
         st.sidebar.error(f"Filter failed: {e}")
 
-# --- API debug info (optional) ---
+# API debug info 
 st.sidebar.caption(f"API: `{API_BASE}`")  # <-- This is the other line you were looking for
 
-# ---------- Data ----------
+# Data 
 
 stocks_resp = fetch("/stocks")
 stocks = stocks_resp["stocks"] if stocks_resp else []
 df = pd.DataFrame(stocks)
 
 
-# ---------- Market Overview Page ----------
+# Market Overview Page 
 
 if page == "Market Overview":
     st.title("Market Overview")
@@ -133,7 +131,7 @@ if page == "Market Overview":
         st.info("No data yet. Click **Refresh live data** in the sidebar to pull data from Yahoo Finance.")
 
 
-# ---------- Company Detail Page ----------
+# Company Detail Page 
 
 elif page == "Company Detail":
     st.title("Company Detail")
@@ -183,7 +181,7 @@ elif page == "Company Detail":
             else:
                 st.info("No historical data available yet for this ticker.")
 
-            # ---------- NEWS SECTION ----------
+            # NEWS SECTION 
             st.markdown("---")
             st.markdown("#### Latest News")
 
@@ -201,9 +199,9 @@ elif page == "Company Detail":
                     st.info("No recent news found for this company.")
             except Exception as e:
                 st.info("Could not fetch news at this time.")
-# ---------- Comparison Page ----------
 
-# ---------- Comparison Page ----------
+
+# Comparison Page 
 
 elif page == "Comparison":
     st.title("Company Comparison")
@@ -211,7 +209,7 @@ elif page == "Comparison":
     if df.empty:
         st.info("No data yet. Click **Refresh live data** in the sidebar first.")
     else:
-        # --- NEW: Sector Filter Dropdown ---
+        # Sector Filter Dropdown 
         sectors = sorted(df["sector"].dropna().unique())
         sector_options = ["All Sectors"] + sectors
         selected_sector = st.selectbox("Filter companies by sector", sector_options)
